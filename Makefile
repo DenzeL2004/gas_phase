@@ -10,8 +10,8 @@ FLAGS = -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equa
 SFML_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 
-run:		obj/vector.o obj/graphic.o obj/molecules.o obj/main.o
-	g++   	obj/vector.o obj/graphic.o obj/molecules.o obj/main.o -o run  $(SFML_FLAGS)
+run:		obj/vector.o obj/graphic.o obj/molecules.o obj/molecules_manager.o obj/main.o
+	g++   	obj/vector.o obj/graphic.o obj/molecules.o obj/molecules_manager.o obj/main.o -o run  $(SFML_FLAGS)
 
 
 obj/main.o: main.cpp
@@ -26,8 +26,12 @@ obj/vector.o: src/vector/vector.cpp src/vector/vector.h
 obj/graphic.o: src/graphic/graphic.cpp src/graphic/graphic.h src/graphic/graphic_config.h
 		g++    src/graphic/graphic.cpp -c -o obj/graphic.o $(FLAGS) $(SFML_FLAGS)
 
+
 obj/molecules.o: src/molecules/molecules.cpp src/molecules/molecules.h
 		g++      src/molecules/molecules.cpp -c -o obj/molecules.o $(FLAGS)
+
+obj/molecules_manager.o: src/molecules/molecules_manager/molecules_manager.cpp src/molecules/molecules_manager/molecules_manager.h
+		g++      		src/molecules/molecules_manager/molecules_manager.cpp -c -o obj/molecules_manager.o $(FLAGS)
 
 
 .PHONY: cleanup mkdirectory

@@ -3,12 +3,16 @@
 static const sf::Color Circle_def_color = sf::Color::Red;
 static const sf::Color Square_def_color = sf::Color::Blue;
 
+//================================================================================
+
 void CircleMolecule::Draw (sf::RenderWindow &window) const
 {
     DrawCircle(window, pos_, Mol_Radius, Circle_def_color);
     
     return;
 }
+
+//================================================================================
 
 void SquareMolecule::Draw (sf::RenderWindow &window) const
 {
@@ -23,3 +27,5 @@ void SquareMolecule::Draw (sf::RenderWindow &window) const
     return;
 }
 
+
+//================================================================================

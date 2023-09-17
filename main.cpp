@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "src/molecules/molecules.h"
+#include "src/molecules/molecules_manager/molecules_manager.h"
 
 int main()
 {
@@ -12,10 +12,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode(Default_window_width, Default_window_height), "Gas model");
 
     
-    CircleMolecule circle({30.0, 100.0, 0.0}, {1.0, 1.0, 1.0});
-    SquareMolecule square({100.0, 100.0, 0.0}, {1.0, 1.0, 1.0});
+    MoleculesManager mol_manager(Dot(20.0, 20.0), Dot(900.0, 700.0), 10.0, 10.0);
 
-
+    mol_manager.AddMolecule(MOL_CIRCLE);
 
     sf::Event event;
     while (window.isOpen())
@@ -28,8 +27,10 @@ int main()
                 window.close();
         }
         
-        circle.Draw(window);
-        square.Draw(window);
+        mol_manager.Show(window);
+        //mol_manager.AddMolecule(MOL_CIRCLE);
+        mol_manager.AddMolecule(MOL_SQUARE);
+        mol_manager.MoleculesMovment();
     
         window.display();
 

@@ -14,8 +14,24 @@ class Molecule
 
         virtual void Draw(sf::RenderWindow &window) const = 0;
 
+        virtual float   GetSize() const {return 0.0;};
+        Dot     GetPos()  const {return pos_;};
+        Vector  GetDir()  const {return dir_;};
+
+        void Move() 
+        {
+            pos_ += dir_; 
+            return;
+        }
+
+        void SetDir(const Vector &dir) 
+        {
+            dir_ = dir; 
+            return;
+        }
+
     protected:
-        Vector pos_;
+        Dot pos_;
         Vector dir_;
 
 };
@@ -28,8 +44,10 @@ class CircleMolecule : public Molecule
 
         void Draw (sf::RenderWindow &window) const override;
 
+        float GetSize() const override {return Mol_Radius;};
+
     private:
-        static constexpr float Mol_Radius = 14.4f; 
+        static constexpr float Mol_Radius = 24.4f; 
 };
 
 class SquareMolecule : public Molecule
@@ -40,8 +58,10 @@ class SquareMolecule : public Molecule
 
         void Draw (sf::RenderWindow &window) const override;
 
+        float GetSize() const override {return Mol_Side / 2.f;};
+
     private:
-        static constexpr float Mol_Side = 20.0f;
+        static constexpr float Mol_Side = 50.0f;
 };
 
 enum MoleculesType
