@@ -10,13 +10,17 @@ FLAGS = -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equa
 SFML_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 
-run:		obj/vector.o obj/graphic.o obj/molecules.o obj/molecules_manager.o obj/main.o
-	g++   	obj/vector.o obj/graphic.o obj/molecules.o obj/molecules_manager.o obj/main.o -o run  $(SFML_FLAGS)
+run:		obj/vector.o obj/graphic.o obj/molecules.o obj/molecules_manager.o obj/generals.o obj/main.o
+	g++   	obj/vector.o obj/graphic.o obj/molecules.o obj/molecules_manager.o obj/generals.o obj/main.o -o run  $(SFML_FLAGS)
 
 
 obj/main.o: main.cpp
 		g++ main.cpp -c -o obj/main.o $(FLAGS)
 
+
+
+obj/generals.o: src/generals_func/generals.cpp src/generals_func/generals.h
+			g++ src/generals_func/generals.cpp -c -o obj/generals.o $(FLAGS)
 
 
 obj/vector.o: src/vector/vector.cpp src/vector/vector.h

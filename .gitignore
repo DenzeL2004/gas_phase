@@ -1,4 +1,3 @@
 run
 obj
-src/molecules_manager/molecules_manager.h
-src/molecules_manager/molecules_manager.cpp
+.vscode/settings.json

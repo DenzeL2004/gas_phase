@@ -153,5 +153,31 @@ Vector operator / (const Vector &vec, const double scale)
     return res;
 }
 
+//=======================================================================
+
+Vector Vector::Orthogonal () const
+{
+    Vector res(-this->GetY(), this->GetX());
+    return res;
+}
 
 //=======================================================================
+
+Vector Vector::Reflection (const Vector &other) const
+{
+    Vector other_ortogonal = other.Orthogonal();
+    other_ortogonal = other_ortogonal.Normal();
+
+    Vector res = this->Dot(other_ortogonal) * 2.0 * other_ortogonal - *this;
+
+    return res;
+}
+
+//=======================================================================
+
+bool  Vector::operator == (const Vector &other)
+{
+    return  EqualityDouble(this->GetX(), other.GetX()) &&
+            EqualityDouble(this->GetY(), other.GetY()) &&
+            EqualityDouble(this->GetZ(), other.GetZ());
+}

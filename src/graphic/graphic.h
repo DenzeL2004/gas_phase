@@ -5,6 +5,8 @@
 #include <SFML/Graphics.hpp>
 
 
+#include <unistd.h>
+
 #include "../vector/vector.h"
         
 #include "../graphic/graphic_config.h"

@@ -5,6 +5,8 @@
 
 #include <cmath>
 
+#include "../generals_func/generals.h"
+
 class Vector 
 {
     public:
@@ -28,6 +30,8 @@ class Vector
         void SetY(const double y) { y_ = y; return;}
         void SetZ(const double z) { z_ = z; return;}
 
+        bool operator == (const Vector &other);
+
         Vector& operator  = (const Vector &other);
         Vector& operator += (const Vector &other);
         Vector& operator -= (const Vector &other);
@@ -36,10 +40,13 @@ class Vector
 
         Vector& operator *= (const Vector &other);
 
-        Vector Normal   () const;
+        Vector  Normal     () const;
+        Vector  Orthogonal  () const;
+        Vector  Reflection (const Vector &other) const;  
         
-        double Dot      (const Vector &vec) const;
-        double Len      () const;
+        double  Dot      (const Vector &vec) const;
+        double  Len      () const;
+
 
     private:     
         double x_;

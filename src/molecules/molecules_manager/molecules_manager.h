@@ -3,7 +3,7 @@
 
 #include "../molecules.h"
 
-const Dot Defaulte_mol_dir = Dot(0.0, 1.0, 0.0); 
+const Dot Defaulte_mol_dir = Dot(-10.0, 03.0, 0.0); 
 
 class MoleculesManager
 {
@@ -35,9 +35,11 @@ class MoleculesManager
 
         void DrawEnvironment (sf::RenderWindow &window) const;
 
-        void DrawMolecules (sf::RenderWindow &window) const;
+        void DrawMolecules  (sf::RenderWindow &window) const;
 
-        bool CheckInFlask (const Molecule &mol) const;
+        bool CheckInFlask   (const Molecule &mol) const;
+
+        void CorrectMolPos  (Molecule &mol) const;
 
 
         Dot left_up_, right_down_;

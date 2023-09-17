@@ -30,6 +30,12 @@ class Molecule
             return;
         }
 
+        void SetPos(const Dot &pos) 
+        {
+            pos_ = pos; 
+            return;
+        }
+
     protected:
         Dot pos_;
         Vector dir_;
@@ -47,7 +53,7 @@ class CircleMolecule : public Molecule
         float GetSize() const override {return Mol_Radius;};
 
     private:
-        static constexpr float Mol_Radius = 24.4f; 
+        static constexpr float Mol_Radius = 25.4f; 
 };
 
 class SquareMolecule : public Molecule
