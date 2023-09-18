@@ -1,4 +1,4 @@
-#include "molecules.h"
+#include "atom.h"
 
 static const sf::Color Circle_def_color = sf::Color::Red;
 static const sf::Color Circle_strike_color = Orange;
@@ -8,7 +8,7 @@ static const sf::Color Square_strike_color = sf::Color::Cyan;
 
 //================================================================================
 
-Molecule::Molecule (const Dot &pos, const Vector &dir, 
+Atom::Atom (const Dot &pos, const Vector &dir, 
                     const double mass, const double velocity)
 {
     if (mass < 0.0)
@@ -29,7 +29,7 @@ Molecule::Molecule (const Dot &pos, const Vector &dir,
 
 //================================================================================
 
-void CircleMolecule::Draw (sf::RenderWindow &window) const
+void CircleAtom::Draw (sf::RenderWindow &window) const
 {
     Dot shift_dot(pos_.GetX() - (double)Mol_Radius, 
                   pos_.GetY() - (double)Mol_Radius);
@@ -46,7 +46,7 @@ void CircleMolecule::Draw (sf::RenderWindow &window) const
 
 //================================================================================
 
-void SquareMolecule::Draw (sf::RenderWindow &window) const
+void SquareAtom::Draw (sf::RenderWindow &window) const
 {
 
 

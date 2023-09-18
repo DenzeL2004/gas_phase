@@ -1,6 +1,9 @@
 #include <stdio.h>
 
-#include "src/molecules/molecules_manager/molecules_manager.h"
+#include "src/atom/atoms_manager/atoms_manager.h"
+
+const char* red_button = "src/img/red_button.png";
+const char* blue_button = "src/img/blue_button.png";
 
 int main()
 {
@@ -14,14 +17,12 @@ int main()
     sf::RenderWindow window(sf::VideoMode(Default_window_width, Default_window_height), "Gas model");
 
     
-    MoleculesManager mol_manager(Dot(20.0, 20.0), Dot(900.0, 700.0), 5.0, 50.0);
-
+    AtomsManager atom_manager(Dot(20.0, 20.0), Dot(900.0, 700.0), 1.0, 50.0);
     
-    mol_manager.AddMolecule(MOL_SQUARE);
-    mol_manager.AddMolecule(MOL_CIRCLE);
-    mol_manager.AddMolecule(MOL_CIRCLE);
-    mol_manager.AddMolecule(MOL_SQUARE);
-    mol_manager.AddMolecule(MOL_CIRCLE);
+    ButtonsManager buttons_manager;
+    buttons_manager.AddButton(new Button(red_button, red_button, red_button, Dot(20.0, 710.0), new NewCircleAtom(&atom_manager)));
+    buttons_manager.AddButton(new Button(blue_button, blue_button, blue_button, Dot(20.0, 800.0), new NewSquareAtom(&atom_manager)));
+
 
     sf::Event event;
     while (window.isOpen())
@@ -34,13 +35,13 @@ int main()
                 window.close();
         }
         
-        mol_manager.Show(window);
-        mol_manager.MoleculesMovment();
+        atom_manager.Show(window);
+        atom_manager.AtomsMovment();
+
+        buttons_manager.ShowButtons(window);
+        buttons_manager.DetectPresse();
     
         window.display();
-        
-        sleep(1);
-
     }
 
     

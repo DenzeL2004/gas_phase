@@ -3,35 +3,22 @@
 
 #include "../graphic.h"
 
-class Button
+
+
+//================================================================================
+
+class Action
 {
-
     public:
-        Button  (const char *stat_texture_file, const char *point_texture_file, const char *press_texture_file, 
-                 const Dot &pos);
+        Action(){};
+        
+        virtual ~Action() = default;
 
-        ~Button()
-        {
-            stat_texture_.~Texture();
-            point_texture_.~Texture();
-            press_texture_.~Texture();
-        }
-
-        virtual void Draw(sf::RenderWindow &window, sf::Texture texture) const;
-
-        virtual void Action() = 0;
-
-        bool CheckCursorOnButton();
-
-        bool CheckButtonPress();
-
-    protected:
-        sf::Texture stat_texture_, point_texture_, press_texture_;
-        Dot left_up_;
-
-        bool flag_pressed_;
+        virtual bool operator() () const = 0;
+    
 };
 
+//================================================================================
 
 enum Buttons_err
 {
@@ -45,28 +32,74 @@ class Button
 
     public:
         Button  (const char *stat_texture_file, const char *point_texture_file, const char *press_texture_file, 
-                 const Dot &pos);
+                 const Dot &pos, const Action *action);
 
-        ~Button()
+        Button(const Button &other) = default;
+
+        virtual ~Button()
         {
             stat_texture_.~Texture();
             point_texture_.~Texture();
             press_texture_.~Texture();
+
+            delete action_;
         }
 
-        virtual void Draw(sf::RenderWindow &window, sf::Texture texture) const;
+        Button& operator= (const Button &other) = default;
 
-        virtual void Action() = 0;
+        virtual void Draw(sf::RenderWindow &window) const;
 
-        bool CheckCursorOnButton();
+        virtual bool CheckCursorOnButton () const;
 
-        bool CheckButtonPress();
+        virtual bool CheckClick         () const;
+
+        bool GetFlag() const {return flag_pressed_;}
+        
+        void SetFlag(const bool flag) 
+        {
+            flag_pressed_ = flag;
+            return;
+        }
+
+        const Action *action_; 
 
     protected:
         sf::Texture stat_texture_, point_texture_, press_texture_;
         Dot left_up_;
 
         bool flag_pressed_;
+};
+
+
+class ButtonsManager
+{
+
+    public:
+        ButtonsManager (): buttons_(){}
+
+        ~ButtonsManager ()
+        {
+            for (size_t it = 0; it < buttons_.size(); it++)
+            {
+                if (buttons_[it] != nullptr)
+                    delete buttons_[it];
+            }
+                return;
+        }
+
+        void AddButton (Button *button)
+        {
+            buttons_.push_back(button);
+            return;
+        }
+
+        void ShowButtons (sf::RenderWindow &window) const;
+
+        void DetectPresse() const;
+
+
+    protected:
+        std::vector<Button*> buttons_;
 };
 
 

@@ -1,30 +1,30 @@
-#include "molecules_manager.h"
+#include "atoms_manager.h"
 
 //================================================================================
 
-static const size_t Dir_variation = 30u;
-static const double Start_mol_velocity = 10.0;
+static const size_t Dir_variation = 40u;
+static const double Start_atom_velocity = 1.0;
 
-void MoleculesManager::AddMolecule (const MoleculesType type)
+void AtomsManager::AddAtom (const AtomsType type)
 {
-    Molecule *obj = nullptr;  
+    Atom *obj = nullptr;  
 
-    double coord_x = (double)((rand() % Dir_variation) - (rand() % Dir_variation));
-    double coord_y = (double)((rand() % Dir_variation) - (rand() % Dir_variation));
+    double coord_x = (double)((rand() % Dir_variation) - Dir_variation / 2);
+    double coord_y = (double)((rand() % Dir_variation) - Dir_variation / 2);
 
     Vector dir(coord_x, coord_y);
 
     switch (type)
     {
-        case MOL_CIRCLE:
+        case ATOM_CIRCLE:
         {
-            obj = new CircleMolecule((left_up_ + right_down_) / 2.0, dir, Start_mol_velocity);    
+            obj = new CircleAtom((left_up_ + right_down_) / 2.0, dir, Start_atom_velocity);    
             break;
         }
 
-        case MOL_SQUARE:
+        case ATOM_SQUARE:
         {
-            obj = new SquareMolecule((left_up_ + right_down_) / 2.0, dir, Start_mol_velocity);
+            obj = new SquareAtom((left_up_ + right_down_) / 2.0, dir, Start_atom_velocity);
             break;
         }
 
@@ -32,24 +32,24 @@ void MoleculesManager::AddMolecule (const MoleculesType type)
             break;
     }
 
-    molecules_.push_back(obj);
+    Atoms_.push_back(obj);
 
     return;
 }
 
 //================================================================================
 
-void MoleculesManager::Show (sf::RenderWindow &window) const
+void AtomsManager::Show (sf::RenderWindow &window) const
 {
     this->DrawEnvironment(window);
-    this->DrawMolecules(window);
+    this->DrawAtoms(window);
 
     return;
 }
 
 //================================================================================
 
-void  MoleculesManager::DrawEnvironment (sf::RenderWindow &window) const
+void  AtomsManager::DrawEnvironment (sf::RenderWindow &window) const
 {
     DrawRectangle(window, left_up_, Dot(right_down_.GetX(), left_up_.GetY() + piston_height_), Brown);
 
@@ -63,15 +63,15 @@ void  MoleculesManager::DrawEnvironment (sf::RenderWindow &window) const
 
 }
 
-void MoleculesManager::DrawMolecules (sf::RenderWindow &window) const
+void AtomsManager::DrawAtoms (sf::RenderWindow &window) const
 {
-    for (size_t it = 0; it < molecules_.size(); it++)
+    for (size_t it = 0; it < Atoms_.size(); it++)
     {
-        if (molecules_[it] != nullptr)
+        if (Atoms_[it] != nullptr)
         {
-            if (this->CheckInFlask(*molecules_[it]))
+            if (this->CheckInFlask(*Atoms_[it]))
             {
-                molecules_[it]->Draw(window);
+                Atoms_[it]->Draw(window);
             }
         }
     }
@@ -82,7 +82,7 @@ void MoleculesManager::DrawMolecules (sf::RenderWindow &window) const
 
 //================================================================================
 
-bool MoleculesManager::CheckInFlask (const Molecule &mol) const
+bool AtomsManager::CheckInFlask (const Atom &mol) const
 {
     double size = (double)mol.GetSize();
 
@@ -103,17 +103,17 @@ bool MoleculesManager::CheckInFlask (const Molecule &mol) const
 
 //================================================================================
 
-void MoleculesManager::MoleculesMovment () const
+void AtomsManager::AtomsMovment () const
 {
-    for (size_t it = 0; it < molecules_.size(); it++)
+    for (size_t it = 0; it < Atoms_.size(); it++)
     {
-        if (molecules_[it] != nullptr)
+        if (Atoms_[it] != nullptr)
         {
-            molecules_[it]->Move();
+            Atoms_[it]->Move();
             
-            if (!this->CheckInFlask(*molecules_[it]))
+            if (!this->CheckInFlask(*Atoms_[it]))
             {
-                this->CorrectMolPos(*molecules_[it]);
+                this->CorrectMolPos(*Atoms_[it]);
 
             }
         }
@@ -124,7 +124,7 @@ void MoleculesManager::MoleculesMovment () const
 
 //================================================================================
 
-void MoleculesManager::CorrectMolPos  (Molecule &mol) const
+void AtomsManager::CorrectMolPos  (Atom &mol) const
 {
     double size = (double)mol.GetSize();
 

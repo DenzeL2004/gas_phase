@@ -1,8 +1,8 @@
 #ifndef _GRAPHIC_CONFIG_H_
 #define _GRAPHIC_CONFIG_H_
 
-const uint32_t Default_window_height = 768;
-const uint32_t Default_window_width = 1024;
+const uint32_t Default_window_height = 1200;
+const uint32_t Default_window_width  = 1604;
 
 const uint32_t Default_plane_height  = (uint32_t)((double)Default_window_height  / 1.1);
 const uint32_t Default_plane_width  = (uint32_t)((double)Default_window_width / 1.75);

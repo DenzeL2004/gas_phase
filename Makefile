@@ -10,14 +10,17 @@ FLAGS = -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equa
 SFML_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 
-run:		obj/vector.o obj/graphic.o obj/molecules.o obj/molecules_manager.o obj/generals.o obj/main.o
-	g++   	obj/vector.o obj/graphic.o obj/molecules.o obj/molecules_manager.o obj/generals.o obj/main.o -o run  $(SFML_FLAGS)
+run:		obj/vector.o obj/graphic.o obj/atom.o obj/atoms_manager.o obj/button.o obj/log_errors.o obj/generals.o obj/main.o
+	g++   	obj/vector.o obj/graphic.o obj/atom.o obj/atoms_manager.o obj/button.o obj/log_errors.o obj/generals.o obj/main.o -o run  $(SFML_FLAGS)
 
 
 obj/main.o: main.cpp
 		g++ main.cpp -c -o obj/main.o $(FLAGS)
 
 
+
+obj/log_errors.o: src/log_info/log_errors.h src/log_info/log_errors.cpp
+			g++   src/log_info/log_errors.cpp -c -o obj/log_errors.o $(FLAGS)
 
 obj/generals.o: src/generals_func/generals.cpp src/generals_func/generals.h
 			g++ src/generals_func/generals.cpp -c -o obj/generals.o $(FLAGS)
@@ -30,12 +33,15 @@ obj/vector.o: src/vector/vector.cpp src/vector/vector.h
 obj/graphic.o: src/graphic/graphic.cpp src/graphic/graphic.h src/graphic/graphic_config.h
 		g++    src/graphic/graphic.cpp -c -o obj/graphic.o $(FLAGS) $(SFML_FLAGS)
 
+obj/button.o: src/graphic/button/button.cpp src/graphic/button/button.h
+		g++   src/graphic/button/button.cpp -c -o obj/button.o $(FLAGS) $(SFML_FLAGS)
 
-obj/molecules.o: src/molecules/molecules.cpp src/molecules/molecules.h
-		g++      src/molecules/molecules.cpp -c -o obj/molecules.o $(FLAGS)
 
-obj/molecules_manager.o: src/molecules/molecules_manager/molecules_manager.cpp src/molecules/molecules_manager/molecules_manager.h
-		g++      		src/molecules/molecules_manager/molecules_manager.cpp -c -o obj/molecules_manager.o $(FLAGS)
+obj/atom.o: 	src/atom/atom.cpp src/atom/atom.h
+		g++     src/atom/atom.cpp -c -o obj/atom.o $(FLAGS)
+
+obj/atoms_manager.o: 	src/atom/atoms_manager/atoms_manager.cpp src/atom/atoms_manager/atoms_manager.h
+		g++      		src/atom/atoms_manager/atoms_manager.cpp -c -o obj/atoms_manager.o $(FLAGS)
 
 
 .PHONY: cleanup mkdirectory

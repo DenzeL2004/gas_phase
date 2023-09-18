@@ -1,18 +1,18 @@
-#ifndef _MOLECULES_H_
-#define _MOLECULES_H_
+#ifndef _ATOM_H_
+#define _ATOM_H_
 
 #include "../vector/vector.h"
 #include "../graphic/graphic.h"
 
-class Molecule
+class Atom
 {
     public:
 
-        Molecule (const Dot &pos, const Vector &dir, 
+        Atom (const Dot &pos, const Vector &dir, 
                   const double mass, const double velocity);
 
 
-        virtual ~Molecule() = default;
+        virtual ~Atom() = default;
 
         virtual void Draw(sf::RenderWindow &window) const = 0;
 
@@ -54,12 +54,12 @@ class Molecule
         double velocity_;
 };
 
-class CircleMolecule : public Molecule
+class CircleAtom : public Atom
 {   
     public:
 
-        CircleMolecule (const Dot &pos, const Vector &dir, 
-                        const double velocity):Molecule(pos, dir, Mol_mass, velocity){} 
+        CircleAtom (const Dot &pos, const Vector &dir, 
+                        const double velocity):Atom(pos, dir, Mol_mass, velocity){} 
 
         void Draw (sf::RenderWindow &window) const override;
 
@@ -70,12 +70,12 @@ class CircleMolecule : public Molecule
         static constexpr double Mol_mass = 1.0; 
 };
 
-class SquareMolecule : public Molecule
+class SquareAtom : public Atom
 {   
     public:
 
-        SquareMolecule (const Dot &pos, const Vector &dir, 
-                        const double velocity):Molecule(pos, dir, Mol_mass, velocity){} 
+        SquareAtom (const Dot &pos, const Vector &dir, 
+                        const double velocity):Atom(pos, dir, Mol_mass, velocity){} 
 
         void Draw (sf::RenderWindow &window) const override;
 
@@ -86,10 +86,10 @@ class SquareMolecule : public Molecule
         static constexpr double Mol_mass = 2.0f; 
 };
 
-enum MoleculesType
+enum AtomsType
 {
-    MOL_CIRCLE = 1,
-    MOL_SQUARE = 2
+    ATOM_CIRCLE = 1,
+    ATOM_SQUARE = 2
 };
 
-#endif //_MOLECULES_H_
+#endif //_AtomS_H_

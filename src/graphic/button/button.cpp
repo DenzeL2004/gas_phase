@@ -2,7 +2,7 @@
 
 
 Button::Button (const char *stat_texture_file, const char *point_texture_file, const char *press_texture_file,
-                const Dot &pos)
+                const Dot &pos, const Action *action)
 {
     if (!stat_texture_.loadFromFile(stat_texture_file))   
     {
@@ -25,35 +25,54 @@ Button::Button (const char *stat_texture_file, const char *point_texture_file, c
     }
 
     left_up_ = pos;
+    
+    action_ = action;
+
     flag_pressed_ = false;
 
     return;
 
 }
 
-void Button::Draw(sf::RenderWindow &window, sf::Texture texture) const
+//================================================================================
+
+void Button::Draw(sf::RenderWindow &window) const
 {
+    const sf::Texture *texture = nullptr;
+
+    if (this->CheckCursorOnButton())
+    {
+        texture = &point_texture_;
+    }
+    else if (flag_pressed_)
+        texture = &press_texture_;
+    else
+        texture = &stat_texture_;
+    
+
     sf::Sprite button_sprite;
-    button_sprite.setTexture(texture);
-    button_sprite.setPosition(left_up_.GetX(), left_up_.GetY());
+    button_sprite.setTexture(*texture);
+    button_sprite.setPosition((float)left_up_.GetX(), (float)left_up_.GetY());
 
     window.draw(button_sprite);
 
     return;
 }
 
-bool Button::CheckCursorOnButton()
+//================================================================================
+
+bool Button::CheckCursorOnButton() const
 {
-    sf::Texture *texture;
+    const sf::Texture *texture;
 
     if (flag_pressed_)  texture = &stat_texture_;
     else                texture = &press_texture_;
 
-    int width  = (int)texture->getSize().x;
-    int hieght = (int)texture->getSize().y;
+    double width  = (double)texture->getSize().x;
+    double hieght = (double)texture->getSize().y;
 
-    int mouse_x = sf::Mouse::getPosition().x;
-    int mouse_y = sf::Mouse::getPosition().y;
+    double mouse_x = (double)sf::Mouse::getPosition().x;
+    double mouse_y = (double)sf::Mouse::getPosition().y - 65.0;
 
     bool res = (left_up_.GetX() < mouse_x  && mouse_x < left_up_.GetX() + width &&
                 left_up_.GetY() < mouse_y  && mouse_y < left_up_.GetY() + hieght);
@@ -61,7 +80,48 @@ bool Button::CheckCursorOnButton()
     return res;
 }
 
-bool Button::CheckButtonPress()
+//================================================================================
+
+bool Button::CheckClick() const 
 {
-    return this->CheckCursorOnButton() && sf::Mouse::isButtonPressed(sf::Mouse::Left);
+    
+    const size_t Delay = 100;
+    
+    bool now = this->CheckCursorOnButton() && sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+    bool after = true;
+    for (size_t it = 0; it < Delay; it++)
+        after = after && this->CheckCursorOnButton() && sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+    return (now == true && after == false);
 }
+
+//================================================================================
+
+void ButtonsManager::ShowButtons(sf::RenderWindow &window) const
+{
+    for (size_t it = 0 ; it < buttons_.size(); it++)
+    {
+        buttons_[it]->Draw(window);
+    }    
+
+    return;
+}
+
+//================================================================================
+
+void ButtonsManager::DetectPresse() const
+{
+    for (size_t it = 0 ; it < buttons_.size(); it++)
+    {
+        if(buttons_[it]->CheckClick()) 
+        {
+            buttons_[it]->SetFlag((*buttons_[it]->action_)());
+            
+        }
+    }    
+
+    return;
+}
+
+//================================================================================
