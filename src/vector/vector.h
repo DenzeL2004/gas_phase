@@ -6,6 +6,7 @@
 #include <cmath>
 
 #include "../generals_func/generals.h"
+#include "../log_info/log_errors.h"
 
 class Vector 
 {

@@ -53,7 +53,6 @@ void  MoleculesManager::DrawEnvironment (sf::RenderWindow &window) const
 {
     DrawRectangle(window, left_up_, Dot(right_down_.GetX(), left_up_.GetY() + piston_height_), Brown);
 
-
     DrawLine(window, left_up_, Dot(right_down_.GetX(), left_up_.GetY()), sf::Color::White);
     DrawLine(window, left_up_, Dot(left_up_.GetX(), right_down_.GetY()), sf::Color::White);
 
