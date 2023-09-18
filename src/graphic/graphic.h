@@ -22,6 +22,9 @@ void    DrawRectangle   (sf::RenderWindow &window,
 
 void    DrawPixel       (sf::RenderWindow &window, const Dot &pos, const sf::Color color);
 
-const sf::Color Brown = sf::Color(128, 64, 48);
+const sf::Color Brown  = sf::Color(128, 64, 48);
+
+const sf::Color Orange = sf::Color(255, 165, 48);
+
 
 #endif //#endif _GRAPHIC_H_

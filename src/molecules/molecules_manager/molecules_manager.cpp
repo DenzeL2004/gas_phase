@@ -2,23 +2,29 @@
 
 //================================================================================
 
+static const size_t Dir_variation = 30u;
+static const double Start_mol_velocity = 10.0;
+
 void MoleculesManager::AddMolecule (const MoleculesType type)
 {
     Molecule *obj = nullptr;  
 
-    Vector dir((double)(rand() % 10 - 5), (double)(rand() % 10 - 5));
+    double coord_x = (double)((rand() % Dir_variation) - (rand() % Dir_variation));
+    double coord_y = (double)((rand() % Dir_variation) - (rand() % Dir_variation));
+
+    Vector dir(coord_x, coord_y);
 
     switch (type)
     {
         case MOL_CIRCLE:
         {
-            obj = new CircleMolecule((left_up_ + right_down_) / 2.0, dir);    
+            obj = new CircleMolecule((left_up_ + right_down_) / 2.0, dir, Start_mol_velocity);    
             break;
         }
 
         case MOL_SQUARE:
         {
-            obj = new SquareMolecule((left_up_ + right_down_) / 2.0, dir);
+            obj = new SquareMolecule((left_up_ + right_down_) / 2.0, dir, Start_mol_velocity);
             break;
         }
 
@@ -163,6 +169,7 @@ void MoleculesManager::CorrectMolPos  (Molecule &mol) const
 
     mol.SetPos(Dot(new_x, new_y));
     mol.SetDir(new_dir);
+    mol.SetVelocity(temperature_);
 
     return;
 }

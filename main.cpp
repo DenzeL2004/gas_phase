@@ -9,12 +9,12 @@ int main()
             return OPEN_FILE_LOG_ERR;
     #endif
 
-    srand(time(NULL));
+    srand(time(nullptr));
 
     sf::RenderWindow window(sf::VideoMode(Default_window_width, Default_window_height), "Gas model");
 
     
-    MoleculesManager mol_manager(Dot(20.0, 20.0), Dot(900.0, 700.0), 10.0, 10.0);
+    MoleculesManager mol_manager(Dot(20.0, 20.0), Dot(900.0, 700.0), 5.0, 50.0);
 
     
     mol_manager.AddMolecule(MOL_SQUARE);

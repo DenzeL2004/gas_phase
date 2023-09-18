@@ -8,19 +8,23 @@ class Molecule
 {
     public:
 
-        Molecule (const Vector &pos, const Vector &dir): pos_(pos), dir_(dir){} 
+        Molecule (const Dot &pos, const Vector &dir, 
+                  const double mass, const double velocity);
+
 
         virtual ~Molecule() = default;
 
         virtual void Draw(sf::RenderWindow &window) const = 0;
 
         virtual float   GetSize() const {return 0.0;};
+
         Dot     GetPos()  const {return pos_;};
         Vector  GetDir()  const {return dir_;};
+        double  GetMass() const {return mass_;};
 
         void Move() 
         {
-            pos_ += dir_; 
+            pos_ += dir_ * velocity_; 
             return;
         }
 
@@ -36,38 +40,50 @@ class Molecule
             return;
         }
 
+        void SetVelocity(const double temprature) 
+        {
+            
+            velocity_ = sqrt((3 * temprature) / mass_);
+            return;
+        }
+
     protected:
         Dot pos_;
         Vector dir_;
-
+        double mass_;
+        double velocity_;
 };
 
 class CircleMolecule : public Molecule
 {   
     public:
 
-        CircleMolecule (const Vector &pos, const Vector &dir):Molecule(pos, dir){} 
+        CircleMolecule (const Dot &pos, const Vector &dir, 
+                        const double velocity):Molecule(pos, dir, Mol_mass, velocity){} 
 
         void Draw (sf::RenderWindow &window) const override;
 
         float GetSize() const override {return Mol_Radius;};
 
     private:
-        static constexpr float Mol_Radius = 25.4f; 
+        static constexpr float  Mol_Radius = 25.4f;
+        static constexpr double Mol_mass = 1.0; 
 };
 
 class SquareMolecule : public Molecule
 {   
     public:
 
-        SquareMolecule (const Vector &pos, const Vector &dir):Molecule(pos, dir){} 
+        SquareMolecule (const Dot &pos, const Vector &dir, 
+                        const double velocity):Molecule(pos, dir, Mol_mass, velocity){} 
 
         void Draw (sf::RenderWindow &window) const override;
 
         float GetSize() const override {return Mol_Side / 2.f;};
 
     private:
-        static constexpr float Mol_Side = 50.0f;
+        static constexpr float  Mol_Side = 50.0f;
+        static constexpr double Mol_mass = 2.0f; 
 };
 
 enum MoleculesType

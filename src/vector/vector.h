@@ -12,6 +12,7 @@ class Vector
     public:
     
         Vector (const double x, const double y, const double z = 0.0): x_(x), y_(y), z_(z) {}
+        Vector (): x_(0.0), y_(0.0), z_(0.0) {}
 
         Vector (const Vector &src) = default;
 
