@@ -78,3 +78,28 @@ void DrawPixel(sf::RenderWindow &window, const Dot &pos, const sf::Color color)
 }
 
 //================================================================================
+
+void WriteText (sf::RenderWindow &window, const Dot &pos, 
+                const char *msg, const char *font_path, const size_t text_size, 
+                const sf::Color color)
+{
+    assert(msg       != nullptr && "msg is nullptr");
+    assert(font_path != nullptr && "font_path is nullptr");
+
+    sf::Font font;
+
+    if (!font.loadFromFile(font_path))
+    {
+        PROCESS_ERROR(ERR_FILE_OPEN, "load font from file failed\n");
+        return;
+    }    
+
+    sf::Text text(msg, font, text_size);
+    text.setColor(color);
+
+    text.setPosition((float)pos.GetX(), (float)pos.GetY());
+    
+    window.draw(text);
+    
+    return;
+}

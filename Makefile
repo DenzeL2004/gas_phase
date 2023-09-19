@@ -10,8 +10,8 @@ FLAGS = -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equa
 SFML_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 
-run:		obj/vector.o obj/graphic.o obj/atom.o obj/atoms_manager.o obj/button.o obj/log_errors.o obj/generals.o obj/main.o
-	g++   	obj/vector.o obj/graphic.o obj/atom.o obj/atoms_manager.o obj/button.o obj/log_errors.o obj/generals.o obj/main.o -o run  $(SFML_FLAGS)
+run:		obj/vector.o obj/graphic.o obj/atom.o obj/atoms_manager.o obj/button.o obj/gas_model.o obj/log_errors.o obj/generals.o obj/main.o
+	g++   	obj/vector.o obj/graphic.o obj/atom.o obj/atoms_manager.o obj/button.o obj/gas_model.o obj/log_errors.o obj/generals.o obj/main.o -o run  $(SFML_FLAGS)
 
 
 obj/main.o: main.cpp
@@ -42,6 +42,10 @@ obj/atom.o: 	src/atom/atom.cpp src/atom/atom.h
 
 obj/atoms_manager.o: 	src/atom/atoms_manager/atoms_manager.cpp src/atom/atoms_manager/atoms_manager.h
 		g++      		src/atom/atoms_manager/atoms_manager.cpp -c -o obj/atoms_manager.o $(FLAGS)
+
+
+obj/gas_model.o: 	src/gas_model/gas_model.cpp src/gas_model/gas_model.h
+		g++      	src/gas_model/gas_model.cpp -c -o obj/gas_model.o $(FLAGS)
 
 
 .PHONY: cleanup mkdirectory

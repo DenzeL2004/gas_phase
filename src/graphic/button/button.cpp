@@ -2,8 +2,11 @@
 
 
 Button::Button (const char *stat_texture_file, const char *point_texture_file, const char *press_texture_file,
-                const Dot &pos, const Action *action)
+                const Dot &pos, const Action *action):
+                action_(nullptr), stat_texture_(), point_texture_(), press_texture_(), left_up_(), flag_pressed_(false)
 {
+    assert(action != nullptr && "action is nullptr");
+
     if (!stat_texture_.loadFromFile(stat_texture_file))   
     {
         PROCESS_ERROR(LOAD_TEXTURE_TO_STAT, "failed load teture from %s\n", stat_texture_file);
@@ -25,10 +28,8 @@ Button::Button (const char *stat_texture_file, const char *point_texture_file, c
     }
 
     left_up_ = pos;
-    
-    action_ = action;
 
-    flag_pressed_ = false;
+    action_ = action;
 
     return;
 

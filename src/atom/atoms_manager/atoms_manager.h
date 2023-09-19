@@ -12,9 +12,9 @@ class AtomsManager
     public:
 
         AtomsManager (const Dot &left_up, const Dot &right_down, 
-                          const double temperature, const double piston_height): 
-                          left_up_(left_up), right_down_(right_down),
-                          temperature_(temperature), piston_height_(piston_height), Atoms_(){}
+                      const double temperature, const double piston_height): 
+                      left_up_(left_up), right_down_(right_down),
+                      piston_height_(piston_height), wall_temperature_(temperature), cnt_strokes_(0), Atoms_(){}
 
         ~AtomsManager ()
         {
@@ -28,9 +28,26 @@ class AtomsManager
 
         void AddAtom (const AtomsType type);
 
-        void Show        (sf::RenderWindow &window) const;
+        void Show         (sf::RenderWindow &window) const;
 
-        void AtomsMovment () const;
+        void AtomsMovment ();
+
+        Dot GetLeftUp    () const {return left_up_;}
+
+        double GetWidth  () const {return right_down_.GetX() - left_up_.GetX();}
+        double GetHieght () const {return right_down_.GetY() - left_up_.GetY();}
+        
+        //double GetTemperature   () const {return temperature_;}
+        double GetPristonHieght () const {return piston_height_;}
+
+        double GetPreasure (); 
+        
+
+        void SetPristonHieght (const double hieght)
+        {
+            piston_height_ = hieght;
+            return;
+        }
 
     private:
 
@@ -44,41 +61,11 @@ class AtomsManager
 
 
         Dot left_up_, right_down_;
-        double temperature_,  piston_height_;
+        double piston_height_;
+        double wall_temperature_;
+        size_t cnt_strokes_;
 
         std::vector<Atom*> Atoms_;
-};
-
-class NewCircleAtom : public Action
-{
-    public:
-        NewCircleAtom(AtomsManager *ptr):atoms_manager_(ptr) {};
-        ~NewCircleAtom() = default;
-
-        bool operator() () const
-        {
-            atoms_manager_->AddAtom(ATOM_CIRCLE);
-            return false;
-        } 
-
-    private:
-        AtomsManager *atoms_manager_;
-};
-
-class NewSquareAtom : public Action
-{
-    public:
-        NewSquareAtom(AtomsManager *ptr):atoms_manager_(ptr) {};
-        ~NewSquareAtom() = default;
-
-        bool operator() () const
-        {
-            atoms_manager_->AddAtom(ATOM_SQUARE);
-            return false;
-        } 
-
-    private:
-        AtomsManager *atoms_manager_;
 };
 
 

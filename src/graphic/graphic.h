@@ -12,15 +12,19 @@
 #include "../graphic/graphic_config.h"
 
 void    DrawLine        (sf::RenderWindow &window, 
-                         const Dot &dot_begin, const Dot &dot_end, const sf::Color color_line);
+                         const Dot &dot_begin, const Dot &dot_end, const sf::Color color = sf::Color::White);
 
 void    DrawCircle      (sf::RenderWindow &window, const Dot &pos, 
-                         const float radius, const sf::Color color);
+                         const float radius, const sf::Color color = sf::Color::White);
 
 void    DrawRectangle   (sf::RenderWindow &window, 
-                         const Dot &left_up, const Dot &right_down, const sf::Color color);
+                         const Dot &left_up, const Dot &right_down, const sf::Color color = sf::Color::White);
 
-void    DrawPixel       (sf::RenderWindow &window, const Dot &pos, const sf::Color color);
+void    DrawPixel       (sf::RenderWindow &window, const Dot &pos, const sf::Color color = sf::Color::White);
+
+void    WriteText       (sf::RenderWindow &window, const Dot &pos, 
+                         const char *text, const char *font_path, const size_t text_size = 30u,
+                         const sf::Color color = sf::Color::White);
 
 
 const sf::Color Brown  = sf::Color(128, 64, 48);

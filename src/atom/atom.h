@@ -65,6 +65,7 @@ class CircleAtom : public Atom
 
         float GetSize() const override {return Mol_Radius;};
 
+
     private:
         static constexpr float  Mol_Radius = 25.4f;
         static constexpr double Mol_mass = 1.0; 

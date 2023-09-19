@@ -36,6 +36,18 @@ class Button
 
         Button(const Button &other) = default;
 
+        virtual Button& operator= (const Button &other)
+        {
+            stat_texture_  = other.stat_texture_;
+            point_texture_ = other.point_texture_;
+            press_texture_ = other.press_texture_;
+
+            delete action_;
+            action_ = other.action_;
+
+            return *this;
+        }
+
         virtual ~Button()
         {
             stat_texture_.~Texture();
@@ -45,7 +57,6 @@ class Button
             delete action_;
         }
 
-        Button& operator= (const Button &other) = default;
 
         virtual void Draw(sf::RenderWindow &window) const;
 

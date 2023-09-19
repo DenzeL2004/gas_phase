@@ -2,7 +2,7 @@
 
 //================================================================================
 
-static const size_t Dir_variation = 40u;
+static const size_t Dir_variation = 100u;
 static const double Start_atom_velocity = 1.0;
 
 void AtomsManager::AddAtom (const AtomsType type)
@@ -103,7 +103,7 @@ bool AtomsManager::CheckInFlask (const Atom &mol) const
 
 //================================================================================
 
-void AtomsManager::AtomsMovment () const
+void AtomsManager::AtomsMovment ()
 {
     for (size_t it = 0; it < Atoms_.size(); it++)
     {
@@ -113,11 +113,12 @@ void AtomsManager::AtomsMovment () const
             
             if (!this->CheckInFlask(*Atoms_[it]))
             {
+                cnt_strokes_++;
                 this->CorrectMolPos(*Atoms_[it]);
-
             }
         }
     }
+
 
     return;
 }
@@ -168,9 +169,22 @@ void AtomsManager::CorrectMolPos  (Atom &mol) const
 
     mol.SetPos(Dot(new_x, new_y));
     mol.SetDir(new_dir);
-    mol.SetVelocity(temperature_);
+    mol.SetVelocity(wall_temperature_);
 
     return;
 }
 
 //================================================================================
+
+double AtomsManager::GetPreasure()
+{
+    static time_t last_time = 0;
+    time_t cur_time = time(nullptr);
+
+    double preasure_ = (double)cnt_strokes_ / (double)(cur_time - last_time);
+
+    last_time = cur_time;
+    cnt_strokes_ = 0;
+
+    return preasure_;   
+}
