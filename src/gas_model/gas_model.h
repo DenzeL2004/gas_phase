@@ -65,4 +65,28 @@ class MovePiston : public Action
 
 //==============================================================================
 
+class ChangeDegree : public Action
+{
+    public:
+        ChangeDegree(const double delta, AtomsManager *ptr):delta_(delta), atoms_manager_(ptr) {};
+        ~ChangeDegree() = default;
+
+        bool operator() () const
+        {
+            double temprature = atoms_manager_->GetWallTemperature();
+            temprature += delta_;
+
+            temprature = std::max(temprature, 0.0);
+            atoms_manager_->SetWallTemperature(temprature);
+
+            return false;
+        } 
+
+    private:
+        double delta_;
+        AtomsManager *atoms_manager_;
+};
+
+//==============================================================================
+
 #endif

@@ -81,21 +81,6 @@ bool Button::CheckCursorOnButton() const
     return res;
 }
 
-//================================================================================
-
-bool Button::CheckClick() const 
-{
-    
-    const size_t Delay = 100;
-    
-    bool now = this->CheckCursorOnButton() && sf::Mouse::isButtonPressed(sf::Mouse::Left);
-
-    bool after = true;
-    for (size_t it = 0; it < Delay; it++)
-        after = after && this->CheckCursorOnButton() && sf::Mouse::isButtonPressed(sf::Mouse::Left);
-
-    return (now == true && after == false);
-}
 
 //================================================================================
 
@@ -115,7 +100,7 @@ void ButtonsManager::DetectPresse() const
 {
     for (size_t it = 0 ; it < buttons_.size(); it++)
     {
-        if(buttons_[it]->CheckClick()) 
+        if(buttons_[it]->CheckCursorOnButton()) 
         {
             buttons_[it]->SetFlag((*buttons_[it]->action_)());
             

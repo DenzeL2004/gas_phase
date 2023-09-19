@@ -23,13 +23,15 @@ void    DrawRectangle   (sf::RenderWindow &window,
 void    DrawPixel       (sf::RenderWindow &window, const Dot &pos, const sf::Color color = sf::Color::White);
 
 void    WriteText       (sf::RenderWindow &window, const Dot &pos, 
-                         const char *text, const char *font_path, const size_t text_size = 30u,
+                         const char *text, const char *font_path, const uint32_t text_size = 30u,
                          const sf::Color color = sf::Color::White);
 
 
 const sf::Color Brown  = sf::Color(128, 64, 48);
 
 const sf::Color Orange = sf::Color(255, 165, 48);
+
+static const char *Oldtimer_font_path = "src/font/ofont.ru_Oldtimer.ttf";
 
 
 #endif //#endif _GRAPHIC_H_

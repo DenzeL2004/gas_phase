@@ -80,7 +80,7 @@ void DrawPixel(sf::RenderWindow &window, const Dot &pos, const sf::Color color)
 //================================================================================
 
 void WriteText (sf::RenderWindow &window, const Dot &pos, 
-                const char *msg, const char *font_path, const size_t text_size, 
+                const char *msg, const char *font_path, const uint32_t text_size, 
                 const sf::Color color)
 {
     assert(msg       != nullptr && "msg is nullptr");
@@ -95,7 +95,7 @@ void WriteText (sf::RenderWindow &window, const Dot &pos,
     }    
 
     sf::Text text(msg, font, text_size);
-    text.setColor(color);
+    text.setFillColor(color);
 
     text.setPosition((float)pos.GetX(), (float)pos.GetY());
     

@@ -62,8 +62,6 @@ class Button
 
         virtual bool CheckCursorOnButton () const;
 
-        virtual bool CheckClick         () const;
-
         bool GetFlag() const {return flag_pressed_;}
         
         void SetFlag(const bool flag) 

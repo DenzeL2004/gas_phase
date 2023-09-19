@@ -14,14 +14,14 @@ class AtomsManager
         AtomsManager (const Dot &left_up, const Dot &right_down, 
                       const double temperature, const double piston_height): 
                       left_up_(left_up), right_down_(right_down),
-                      piston_height_(piston_height), wall_temperature_(temperature), cnt_strokes_(0), Atoms_(){}
+                      piston_height_(piston_height), wall_temperature_(temperature), cnt_strokes_(0), atoms_(){}
 
         ~AtomsManager ()
         {
-            for (size_t it = 0; it < Atoms_.size(); it++)
+            for (size_t it = 0; it < atoms_.size(); it++)
             {
-                if (Atoms_[it] != nullptr)
-                    delete Atoms_[it];
+                if (atoms_[it] != nullptr)
+                    delete atoms_[it];
             }
                 return;
         }
@@ -37,15 +37,22 @@ class AtomsManager
         double GetWidth  () const {return right_down_.GetX() - left_up_.GetX();}
         double GetHieght () const {return right_down_.GetY() - left_up_.GetY();}
         
-        //double GetTemperature   () const {return temperature_;}
-        double GetPristonHieght () const {return piston_height_;}
+        double GetWallTemperature   () const {return wall_temperature_;}
+        double GetPristonHieght     () const {return piston_height_;}
 
         double GetPreasure (); 
+        double GetTemperature() const; 
         
 
         void SetPristonHieght (const double hieght)
         {
             piston_height_ = hieght;
+            return;
+        }
+
+        void SetWallTemperature (const double wall_temperature)
+        {
+            wall_temperature_ = wall_temperature;
             return;
         }
 
@@ -65,7 +72,7 @@ class AtomsManager
         double wall_temperature_;
         size_t cnt_strokes_;
 
-        std::vector<Atom*> Atoms_;
+        std::vector<Atom*> atoms_;
 };
 
 

@@ -9,8 +9,8 @@ static const sf::Color Square_strike_color = sf::Color::Cyan;
 //================================================================================
 
 Atom::Atom (const Dot &pos, const Vector &dir, 
-                    const double mass, const double velocity):
-            pos_(), dir_(), mass_(NAN), velocity_(NAN)
+                    const double mass, const double velocity, const AtomsType type):
+            pos_(), dir_(), mass_(NAN), type_(type), velocity_(NAN)
 {
     if (mass < 0.0)
     {

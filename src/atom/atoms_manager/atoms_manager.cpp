@@ -2,15 +2,15 @@
 
 //================================================================================
 
-static const size_t Dir_variation = 100u;
+static const int Dir_variation = 100u;
 static const double Start_atom_velocity = 1.0;
 
 void AtomsManager::AddAtom (const AtomsType type)
 {
     Atom *obj = nullptr;  
 
-    double coord_x = (double)((rand() % Dir_variation) - Dir_variation / 2);
-    double coord_y = (double)((rand() % Dir_variation) - Dir_variation / 2);
+    double coord_x = (double)(rand() % Dir_variation - Dir_variation / 2);
+    double coord_y = (double)(rand() % Dir_variation - Dir_variation / 2);
 
     Vector dir(coord_x, coord_y);
 
@@ -32,7 +32,7 @@ void AtomsManager::AddAtom (const AtomsType type)
             break;
     }
 
-    Atoms_.push_back(obj);
+    atoms_.push_back(obj);
 
     return;
 }
@@ -65,13 +65,13 @@ void  AtomsManager::DrawEnvironment (sf::RenderWindow &window) const
 
 void AtomsManager::DrawAtoms (sf::RenderWindow &window) const
 {
-    for (size_t it = 0; it < Atoms_.size(); it++)
+    for (size_t it = 0; it < atoms_.size(); it++)
     {
-        if (Atoms_[it] != nullptr)
+        if (atoms_[it] != nullptr)
         {
-            if (this->CheckInFlask(*Atoms_[it]))
+            if (this->CheckInFlask(*atoms_[it]))
             {
-                Atoms_[it]->Draw(window);
+                atoms_[it]->Draw(window);
             }
         }
     }
@@ -105,17 +105,20 @@ bool AtomsManager::CheckInFlask (const Atom &mol) const
 
 void AtomsManager::AtomsMovment ()
 {
-    for (size_t it = 0; it < Atoms_.size(); it++)
+    for (size_t it = 0; it < atoms_.size(); it++)
     {
-        if (Atoms_[it] != nullptr)
+        if (atoms_[it] != nullptr)
         {
-            Atoms_[it]->Move();
+            atoms_[it]->Move();
             
-            if (!this->CheckInFlask(*Atoms_[it]))
+            if (!this->CheckInFlask(*atoms_[it]))
             {
                 cnt_strokes_++;
-                this->CorrectMolPos(*Atoms_[it]);
+                this->CorrectMolPos(*atoms_[it]);
             }
+
+            if (IsZero(atoms_[it]->GetVelocity()) && !IsZero(wall_temperature_))
+                atoms_[it]->SetVelocity(wall_temperature_);
         }
     }
 
@@ -187,4 +190,21 @@ double AtomsManager::GetPreasure()
     cnt_strokes_ = 0;
 
     return preasure_;   
+}
+
+//================================================================================
+
+double AtomsManager::GetTemperature() const
+{
+    double temperature = 0;
+
+    for (size_t it = 0; it < atoms_.size(); it++)
+    {
+        double delta = atoms_[it]->GetMass() * atoms_[it]->GetVelocity();
+        temperature += delta;
+    }
+
+    temperature /= (double)atoms_.size();
+
+    return temperature;   
 }
