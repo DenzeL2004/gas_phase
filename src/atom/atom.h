@@ -25,7 +25,7 @@ class Atom
 
         virtual void Draw(sf::RenderWindow &window) const = 0;
 
-        virtual float GetSize() const = 0;
+        virtual float GetSize() const {return radius_;};
 
         Dot     GetPos()      const {return pos_;};
         Vector  GetDir()      const {return dir_;};
@@ -66,6 +66,8 @@ class Atom
         Vector dir_;
         double mass_;
         double velocity_;
+
+        float radius_;
 };
 
 class CircleAtom : public Atom
@@ -77,10 +79,7 @@ class CircleAtom : public Atom
 
         void Draw (sf::RenderWindow &window) const override;
 
-        float GetSize() const override {return Mol_Radius;};
-
     private:
-        static constexpr float  Mol_Radius = 25.5f;
         static constexpr double Mol_mass = 1.0; 
 };
 
@@ -93,10 +92,8 @@ class SquareAtom : public Atom
 
         void Draw (sf::RenderWindow &window) const override;
 
-        float GetSize() const override {return Mol_Side / 2.f;};
 
     private:
-        static constexpr float  Mol_Side = 50.0f;
         static constexpr double Mol_mass = 2.0f; 
 };
 

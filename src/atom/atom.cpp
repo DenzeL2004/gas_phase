@@ -10,7 +10,7 @@ static const sf::Color Square_strike_color = sf::Color::Cyan;
 
 Atom::Atom (const Dot &pos, const Vector &dir, 
                     const double mass, const double velocity, const AtomsType type):
-            type_(type), pos_(), dir_(), mass_(NAN), velocity_(NAN)
+            type_(type), pos_(), dir_(), mass_(NAN), velocity_(NAN), radius_(0.f)
 {
     if (mass < 0.0)
     {
@@ -22,6 +22,8 @@ Atom::Atom (const Dot &pos, const Vector &dir,
     dir_ = dir.Normal();
     mass_ = mass;
 
+    radius_ = (float)mass * 10.f;
+
     velocity_ = velocity;
 
     return;
@@ -32,15 +34,15 @@ Atom::Atom (const Dot &pos, const Vector &dir,
 
 void CircleAtom::Draw (sf::RenderWindow &window) const
 {
-    Dot shift_dot(pos_.GetX() - (double)Mol_Radius, 
-                  pos_.GetY() - (double)Mol_Radius);
+    Dot shift_dot(pos_.GetX() - (double)radius_, 
+                  pos_.GetY() - (double)radius_);
 
-    DrawCircle(window, shift_dot, Mol_Radius, Circle_strike_color);
+    DrawCircle(window, shift_dot, radius_, Circle_strike_color);
 
-    shift_dot = Dot(pos_.GetX() - (double)Mol_Radius / 2.0, 
-                    pos_.GetY() - (double)Mol_Radius / 2.0);
+    shift_dot = Dot(pos_.GetX() - (double)radius_ / 2.0, 
+                    pos_.GetY() - (double)radius_ / 2.0);
 
-    DrawCircle(window, shift_dot, Mol_Radius / 2.0, Circle_def_color);
+    DrawCircle(window, shift_dot, radius_ / 2.f, Circle_def_color);
     
     return;
 }
@@ -51,13 +53,13 @@ void SquareAtom::Draw (sf::RenderWindow &window) const
 {
 
 
-    Dot left_up    = pos_ + Vector(-1.0, -1.0, 0.0) * (Mol_Side / 2.0);
-    Dot right_down = pos_ + Vector(1.0, 1.0, 0.0)   * (Mol_Side / 2.0);
+    Dot left_up    = pos_ + Vector(-1.0, -1.0, 0.0) * (radius_);
+    Dot right_down = pos_ + Vector(1.0, 1.0, 0.0)   * (radius_ );
     
     DrawRectangle(window, left_up, right_down, Square_strike_color);
 
-    left_up    = pos_ + Vector(-1.0, -1.0, 0.0) * (Mol_Side / 4.0);
-    right_down = pos_ + Vector(1.0, 1.0, 0.0)   * (Mol_Side / 4.0);
+    left_up    = pos_ + Vector(-1.0, -1.0, 0.0) * (radius_ / 2.0);
+    right_down = pos_ + Vector(1.0, 1.0, 0.0)   * (radius_ / 2.0);
 
     DrawRectangle(window, left_up, right_down, Square_def_color);
 

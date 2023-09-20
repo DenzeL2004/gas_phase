@@ -23,17 +23,17 @@ static const double Time_show = 10;
 void GasModel::Example()
 {
     
-    buttons_manager_.AddButton(new Button(Red_button_file, Red_button_file,   Dot(20.0, 710.0), new NewAtom(ATOM_CIRCLE, &atoms_manager_)));
-    buttons_manager_.AddButton(new Button(Blue_button_file, Blue_button_file, Dot(20.0, 800.0), new NewAtom(ATOM_SQUARE, &atoms_manager_)));
+    buttons_manager_.AddButton(new Button(Red_button_file, Red_button_file, Red_button_file, Red_button_file, Dot(20.0, 710.0), new NewAtom(ATOM_CIRCLE, &atoms_manager_)));
+    buttons_manager_.AddButton(new Button(Blue_button_file, Blue_button_file, Blue_button_file, Blue_button_file, Dot(20.0, 800.0), new NewAtom(ATOM_SQUARE, &atoms_manager_)));
 
-    buttons_manager_.AddButton(new Button(Arrow_up_file, Arrow_up_file,      Dot(240.0, 750.0), new MovePiston(-20.0, &atoms_manager_)));
-    buttons_manager_.AddButton(new Button(Arrow_down_file, Arrow_down_file,  Dot(240.0, 850.0), new MovePiston(20.0, &atoms_manager_)));
+    buttons_manager_.AddButton(new Button(Arrow_up_file, Arrow_up_file, Arrow_up_file, Arrow_up_file,   Dot(240.0, 750.0), new MovePiston(-20.0, &atoms_manager_)));
+    buttons_manager_.AddButton(new Button(Arrow_down_file, Arrow_down_file,  Arrow_down_file, Arrow_down_file, Dot(240.0, 850.0), new MovePiston(20.0, &atoms_manager_)));
 
-    buttons_manager_.AddButton(new Button(Degree_up_file, Degree_up_file,   Dot(350.0, 750.0), new ChangeDegree(0.5, &atoms_manager_)));
-    buttons_manager_.AddButton(new Button(Degre_down_file, Degre_down_file, Dot(350.0, 820.0), new ChangeDegree(-0.5, &atoms_manager_)));
+    buttons_manager_.AddButton(new Button(Degree_up_file, Degree_up_file, Degree_up_file, Degree_up_file,  Dot(350.0, 750.0), new ChangeDegree(0.5, &atoms_manager_)));
+    buttons_manager_.AddButton(new Button(Degre_down_file, Degre_down_file, Degre_down_file, Degre_down_file,  Dot(350.0, 820.0), new ChangeDegree(-0.5, &atoms_manager_)));
 
-    buttons_manager_.AddButton(new Button(Cross_file, Tick_file, Dot(950.0, 20.0),  new ButtonState));
-    buttons_manager_.AddButton(new Button(Cross_file, Tick_file, Dot(950.0, 500.0), new ButtonState));
+    buttons_manager_.AddButton(new Button(Cross_file, Cross_file, Tick_file, Tick_file, Dot(950.0, 20.0),  new ButtonState));
+    buttons_manager_.AddButton(new Button(Cross_file, Cross_file, Tick_file, Tick_file, Dot(950.0, 500.0), new ButtonState));
 
     return;
 }

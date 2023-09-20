@@ -2,6 +2,7 @@
 #define _BUTTON_H_
 
 #include "../graphic.h"
+#include "../../container/container.h"
 
 //================================================================================
 
@@ -29,15 +30,18 @@ class Button
 {
 
     public:
-        Button  (const char *stat_texture_file, const char *press_texture_file, 
+        Button  (const char *released_texture_file, const char *covered_texture_file, 
+                 const char *pressed_texture_file,  const char *disabled_texture_file,
                  const Dot &pos, const Action *action);
 
         Button(const Button &other) = default;
 
         virtual Button& operator= (const Button &other)
         {
-            stat_texture_  = other.stat_texture_;
-            press_texture_ = other.press_texture_;
+            released_texture_  = other.released_texture_;
+            covered_texture_   = other.covered_texture_;
+            pressed_texture_   = other.pressed_texture_;
+            disabled_texture_  = other.disabled_texture_;
 
             delete action_;
             action_ = other.action_;
@@ -47,8 +51,10 @@ class Button
 
         virtual ~Button()
         {
-            stat_texture_.~Texture();
-            press_texture_.~Texture();
+            released_texture_.~Texture();
+            covered_texture_.~Texture();
+            pressed_texture_.~Texture();
+            disabled_texture_.~Texture();
 
             delete action_;
         }
@@ -58,7 +64,8 @@ class Button
 
         virtual bool CheckCursorOnButton () const;
 
-        bool GetFlag() const {return flag_pressed_;}
+        bool CheckPressed()  const {return flag_pressed_;}
+        bool CheckDisabled() const {return flag_disabled_;}
         
         void SetState(const bool flag) 
         {
@@ -68,13 +75,18 @@ class Button
             return;
         }
 
-        const Action *action_; 
+        const Action *action_;
+
+        
 
     protected:
-        sf::Texture stat_texture_, press_texture_;
+        const sf::Texture* DefineTexture() const;
+
+        sf::Texture released_texture_, covered_texture_, 
+                    pressed_texture_, disabled_texture_;
         Dot left_up_;
 
-        bool flag_pressed_;
+        bool flag_pressed_, flag_disabled_;
 };
 
 
@@ -86,7 +98,7 @@ class ButtonsManager
 
         ~ButtonsManager ()
         {
-            size_t size = buttons_.size();
+            size_t size = buttons_.GetSize();
             for (size_t it = 0; it < size; it++)
             {
                 if (buttons_[it] != nullptr)
@@ -97,7 +109,7 @@ class ButtonsManager
 
         void AddButton (Button *button)
         {
-            buttons_.push_back(button);
+            buttons_.PushBack(button);
             return;
         }
 
@@ -105,11 +117,11 @@ class ButtonsManager
 
         void DetectPresse(const sf::Event event) const;
 
-        bool GetButtonState(const size_t it) const {return buttons_[it]->GetFlag();}
+        bool GetButtonState(const size_t it) const {return buttons_[it]->CheckPressed();}
 
 
     protected:
-        std::vector<Button*> buttons_;
+        Container<Button*> buttons_;
 };
 
 

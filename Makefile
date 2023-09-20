@@ -33,7 +33,7 @@ obj/vector.o: src/vector/vector.cpp src/vector/vector.h
 obj/graphic.o: src/graphic/graphic.cpp src/graphic/graphic.h src/graphic/graphic_config.h
 		g++    src/graphic/graphic.cpp -c -o obj/graphic.o $(FLAGS) $(SFML_FLAGS)
 
-obj/button.o: src/graphic/button/button.cpp src/graphic/button/button.h
+obj/button.o: src/graphic/button/button.cpp src/graphic/button/button.h src/container/container.h
 		g++   src/graphic/button/button.cpp -c -o obj/button.o $(FLAGS) $(SFML_FLAGS)
 
 
@@ -52,7 +52,7 @@ obj/gas_model.o: 	src/gas_model/gas_model.cpp src/gas_model/gas_model.h
 
 mkdirectory:
 	mkdir -p obj;
-	mkdir -p temp;
+	mkdir -p tmp;
 	
 
 cleanup:
