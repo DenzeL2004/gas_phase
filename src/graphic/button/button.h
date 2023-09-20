@@ -89,7 +89,7 @@ class ButtonsManager
         ~ButtonsManager ()
         {
             size_t size = buttons_.size();
-            for (size_t it = 0; it < buttons_.size(); it++)
+            for (size_t it = 0; it < size; it++)
             {
                 if (buttons_[it] != nullptr)
                     delete buttons_[it];
@@ -105,7 +105,7 @@ class ButtonsManager
 
         void ShowButtons (sf::RenderWindow &window) const;
 
-        void DetectPresse() const;
+        void DetectPresse(const sf::Event event) const;
 
         bool GetButtonState(const size_t it) const {return buttons_[it]->GetFlag();}
 

@@ -59,9 +59,7 @@ void GasModel::Show(sf::RenderWindow &window)
 
         atoms_manager_.AtomsMovment();
 
-        if (event.type == sf::Event::MouseButtonPressed &&
-            event.mouseButton.button == sf::Mouse::Left)
-            buttons_manager_.DetectPresse();
+        buttons_manager_.DetectPresse(event);
     
         window.display();
     }

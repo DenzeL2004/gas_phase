@@ -76,7 +76,7 @@ bool Button::CheckCursorOnButton() const
 void ButtonsManager::ShowButtons(sf::RenderWindow &window) const
 {
     size_t size = buttons_.size();
-    
+
     for (size_t it = 0 ; it < size; it++)
     {
         buttons_[it]->Draw(window);
@@ -87,18 +87,23 @@ void ButtonsManager::ShowButtons(sf::RenderWindow &window) const
 
 //================================================================================
 
-void ButtonsManager::DetectPresse() const
+void ButtonsManager::DetectPresse(const sf::Event event) const
 {
-    size_t size = buttons_.size();
 
-    for (size_t it = 0 ; it < size; it++)
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
     {
-        if(buttons_[it]->CheckCursorOnButton()) 
+        size_t size = buttons_.size();
+
+        for (size_t it = 0 ; it < size; it++)
         {
-            buttons_[it]->SetFlag((*buttons_[it]->action_)());
-            
-        }
-    }    
+            if(buttons_[it]->CheckCursorOnButton()) 
+            {
+                buttons_[it]->SetFlag((*buttons_[it]->action_)());
+                
+            }
+        }    
+
+    }
 
     return;
 }
