@@ -19,7 +19,8 @@ class AtomsManager
 
         ~AtomsManager ()
         {
-            for (size_t it = 0; it < atoms_.size(); it++)
+            size_t size = atoms_.size();
+            for (size_t it = 0; it < size; it++)
             {
                 if (atoms_[it] != nullptr)
                     delete atoms_[it];
@@ -27,7 +28,7 @@ class AtomsManager
                 return;
         }
 
-        void AddAtom (const AtomsType type);
+        void AddAtom (const AtomsType type, const double mass);
 
         void Show         (sf::RenderWindow &window) const;
 
@@ -66,6 +67,10 @@ class AtomsManager
         bool CheckInFlask   (const Atom &mol) const;
 
         void CorrectMolPos  (Atom &mol) const;
+
+        void Collision ();
+
+        void MakeReaction   (Atom *rhs, Atom *lhs);
 
 
         Dot left_up_, right_down_;

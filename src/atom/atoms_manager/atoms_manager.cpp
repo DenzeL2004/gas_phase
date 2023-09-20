@@ -5,7 +5,7 @@
 static const int Dir_variation = 100u;
 static const double Start_atom_velocity = 1.0;
 
-void AtomsManager::AddAtom (const AtomsType type)
+void AtomsManager::AddAtom (const AtomsType type, const double mass)
 {
     Atom *obj = nullptr;  
 
@@ -18,13 +18,13 @@ void AtomsManager::AddAtom (const AtomsType type)
     {
         case ATOM_CIRCLE:
         {
-            obj = new CircleAtom((left_up_ + right_down_) / 2.0, dir, Start_atom_velocity);    
+            obj = new CircleAtom((left_up_ + right_down_) / 2.0, dir, Start_atom_velocity, mass);    
             break;
         }
 
         case ATOM_SQUARE:
         {
-            obj = new SquareAtom((left_up_ + right_down_) / 2.0, dir, Start_atom_velocity);
+            obj = new SquareAtom((left_up_ + right_down_) / 2.0, dir, Start_atom_velocity, mass);
             break;
         }
 
@@ -126,6 +126,7 @@ void AtomsManager::AtomsMovment ()
         }
     }
 
+    this->Collision();
 
     return;
 }
@@ -186,7 +187,7 @@ void AtomsManager::CorrectMolPos  (Atom &mol) const
 double AtomsManager::GetPreasure()
 {
     static sf::Clock clock;
-    double delta_time = clock.getElapsedTime().asMilliseconds();
+    double delta_time = (double)clock.getElapsedTime().asSeconds();
 
     double preasure = (double)cnt_strokes_ / delta_time;
 
@@ -207,11 +208,72 @@ double AtomsManager::GetTemperature() const
 
     for (size_t it = 0; it < size; it++)
     {
-        double delta = atoms_[it]->GetMass() * atoms_[it]->GetVelocity();
+        double velocity = atoms_[it]->GetVelocity();      
+        double delta = atoms_[it]->GetMass() * velocity * velocity;
+
         temperature += delta;
     }
 
     temperature /= (double)size;
 
     return temperature;   
+}
+
+//================================================================================
+
+void AtomsManager::Collision ()
+{
+    size_t size = atoms_.size();
+
+    for (size_t it = 0; it < size; it++)
+    {
+        for (size_t jt = it + 1; jt < size; jt++)
+        {
+            if (atoms_[jt] == nullptr) continue;
+
+            if (atoms_[it]->CheckCollision(*atoms_[jt]))
+            {
+                this->MakeReaction(atoms_[it], atoms_[jt]);
+                delete atoms_[it];
+                delete atoms_[jt];
+
+                atoms_[it] = atoms_[jt] = nullptr;
+                std::swap(atoms_[it], atoms_[atoms_.size() - 1]);
+                std::swap(atoms_[jt], atoms_[atoms_.size() - 2]);
+
+                atoms_.pop_back();
+                atoms_.pop_back();
+
+                break;
+            }
+        }
+    }
+    
+
+    return;
+}
+
+void AtomsManager::MakeReaction (Atom *rhs, Atom *lhs)
+{
+    double mass = (rhs->GetMass() +  lhs->GetMass());
+    size_t size = atoms_.size();
+
+    if (rhs->type_ == ATOM_SQUARE && lhs->type_ == ATOM_SQUARE)
+    {
+        for (size_t it = 0; it < (size_t)mass; it++)
+        {
+            this->AddAtom(ATOM_CIRCLE, 1.0);
+            
+            atoms_[size]->SetPos((rhs->GetPos() + lhs->GetPos()) / 2);
+            size++;
+        }
+
+
+        return;
+    }
+    
+    this->AddAtom(ATOM_SQUARE, mass);
+    atoms_[size]->SetPos((rhs->GetPos() + lhs->GetPos()) / 2);
+
+    return;
 }

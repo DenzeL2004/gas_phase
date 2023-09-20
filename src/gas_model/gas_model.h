@@ -37,7 +37,7 @@ class NewAtom : public Action
 
         bool operator() () const
         {
-            atoms_manager_->AddAtom(type_);
+            atoms_manager_->AddAtom(type_, 1.0);
             return false;
         } 
 

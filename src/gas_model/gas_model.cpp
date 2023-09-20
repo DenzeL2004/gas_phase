@@ -29,8 +29,8 @@ void GasModel::Example()
     buttons_manager_.AddButton(new Button(Arrow_up_file, Arrow_up_file,      Dot(240.0, 750.0), new MovePiston(-20.0, &atoms_manager_)));
     buttons_manager_.AddButton(new Button(Arrow_down_file, Arrow_down_file,  Dot(240.0, 850.0), new MovePiston(20.0, &atoms_manager_)));
 
-    buttons_manager_.AddButton(new Button(Degree_up_file, Degree_up_file,   Dot(350.0, 750.0), new ChangeDegree(2.0, &atoms_manager_)));
-    buttons_manager_.AddButton(new Button(Degre_down_file, Degre_down_file, Dot(350.0, 820.0), new ChangeDegree(-2.0, &atoms_manager_)));
+    buttons_manager_.AddButton(new Button(Degree_up_file, Degree_up_file,   Dot(350.0, 750.0), new ChangeDegree(0.5, &atoms_manager_)));
+    buttons_manager_.AddButton(new Button(Degre_down_file, Degre_down_file, Dot(350.0, 820.0), new ChangeDegree(-0.5, &atoms_manager_)));
 
     buttons_manager_.AddButton(new Button(Cross_file, Tick_file, Dot(950.0, 20.0),  new ButtonState));
     buttons_manager_.AddButton(new Button(Cross_file, Tick_file, Dot(950.0, 500.0), new ButtonState));
@@ -105,12 +105,12 @@ void GasModel::DrawTemperatureChart(sf::RenderWindow &window) const
     double temperature = atoms_manager_.GetTemperature();
 
     DrawLine(window, Dot(1035.0, 480.0), Dot(1235.0, 480.0));
-    DrawRectangle(window, Dot(1075.0, 480.0 - temperature * 5.0), Dot(1195.0, 480.0));
+    DrawRectangle(window, Dot(1075.0, 480.0 - temperature), Dot(1195.0, 480.0));
 
     char buffer[BUFSIZ];
     sprintf(buffer, "%5.3lg", temperature);
 
-    WriteText(window, Dot(1100.0, 480.0 - temperature * 5.0 - 40), buffer, Oldtimer_font_path);
+    WriteText(window, Dot(1100.0, 480.0 - temperature - 40.0), buffer, Oldtimer_font_path);
 
     return;
 }
@@ -128,7 +128,7 @@ void GasModel::DrawPerssureGraphic(sf::RenderWindow &window)
     double delta_time = clock.getElapsedTime().asSeconds();
     
 
-    if (delta_time > 1.0)
+    if (delta_time > 2.0)
     {
         double perssure = atoms_manager_.GetPreasure();
 
@@ -148,7 +148,7 @@ void GasModel::DrawPerssureGraphic(sf::RenderWindow &window)
     }
 
     Dot Def_coord(1000.0, 900.0);
-    const Vector vec_x(60.0, 0.0), vec_y(0, -80.0);
+    const Vector vec_x(60.0, 0.0), vec_y(0, -3.0);
 
     for (size_t it = 1; it < size; it++)
     {

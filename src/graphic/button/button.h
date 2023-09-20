@@ -88,6 +88,7 @@ class ButtonsManager
 
         ~ButtonsManager ()
         {
+            size_t size = buttons_.size();
             for (size_t it = 0; it < buttons_.size(); it++)
             {
                 if (buttons_[it] != nullptr)
