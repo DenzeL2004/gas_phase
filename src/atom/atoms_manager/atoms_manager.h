@@ -14,7 +14,8 @@ class AtomsManager
         AtomsManager (const Dot &left_up, const Dot &right_down, 
                       const double temperature, const double piston_height): 
                       left_up_(left_up), right_down_(right_down),
-                      piston_height_(piston_height), wall_temperature_(temperature), cnt_strokes_(0), atoms_(){}
+                      piston_height_(piston_height), wall_temperature_(temperature), cnt_strokes_(0), atoms_()
+                      {this->GetPreasure(); return;}
 
         ~AtomsManager ()
         {
@@ -40,8 +41,8 @@ class AtomsManager
         double GetWallTemperature   () const {return wall_temperature_;}
         double GetPristonHieght     () const {return piston_height_;}
 
-        double GetPreasure (); 
-        double GetTemperature() const; 
+        double GetPreasure    (); 
+        double GetTemperature () const; 
         
 
         void SetPristonHieght (const double hieght)

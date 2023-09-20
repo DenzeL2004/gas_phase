@@ -7,14 +7,21 @@
 class GasModel
 {       
     public:
-        GasModel(const AtomsManager &atoms_manager);
+        GasModel(const AtomsManager &atoms_manager):atoms_manager_(atoms_manager), buttons_manager_(){}
 
         ~GasModel() = default;
 
+        
         void Show (sf::RenderWindow &window);
 
     private:
-        void DrawEnvironment(sf::RenderWindow &window) const;
+        void Example();
+
+        void DrawEnvironment        (sf::RenderWindow &window);
+
+        void DrawTemperatureChart   (sf::RenderWindow &window) const;
+
+        void DrawPerssureGraphic    (sf::RenderWindow &window);
 
         AtomsManager    atoms_manager_;
         ButtonsManager  buttons_manager_;
@@ -88,5 +95,17 @@ class ChangeDegree : public Action
 };
 
 //==============================================================================
+
+class ButtonState : public Action
+{
+    public:
+        ButtonState(){};
+        ~ButtonState() = default;
+
+        bool operator() () const
+        {   
+            return true;
+        } 
+};
 
 #endif

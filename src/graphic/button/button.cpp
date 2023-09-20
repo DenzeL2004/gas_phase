@@ -1,22 +1,15 @@
 #include "button.h"
 
 
-Button::Button (const char *stat_texture_file, const char *point_texture_file, const char *press_texture_file,
+Button::Button (const char *stat_texture_file, const char *press_texture_file,
                 const Dot &pos, const Action *action):
-                action_(nullptr), stat_texture_(), point_texture_(), press_texture_(), left_up_(), flag_pressed_(false)
+                action_(nullptr), stat_texture_(), press_texture_(), left_up_(), flag_pressed_(false)
 {
     assert(action != nullptr && "action is nullptr");
 
     if (!stat_texture_.loadFromFile(stat_texture_file))   
     {
         PROCESS_ERROR(LOAD_TEXTURE_TO_STAT, "failed load teture from %s\n", stat_texture_file);
-        return;
-    }
-
-
-    if (!point_texture_.loadFromFile(point_texture_file))   
-    {
-        PROCESS_ERROR(LOAD_TEXTURE_TO_POINT, "failed load teture from %s\n", point_texture_file);
         return;
     }
 
@@ -40,12 +33,8 @@ Button::Button (const char *stat_texture_file, const char *point_texture_file, c
 void Button::Draw(sf::RenderWindow &window) const
 {
     const sf::Texture *texture = nullptr;
-
-    if (this->CheckCursorOnButton())
-    {
-        texture = &point_texture_;
-    }
-    else if (flag_pressed_)
+    
+    if (flag_pressed_)
         texture = &press_texture_;
     else
         texture = &stat_texture_;
@@ -86,7 +75,9 @@ bool Button::CheckCursorOnButton() const
 
 void ButtonsManager::ShowButtons(sf::RenderWindow &window) const
 {
-    for (size_t it = 0 ; it < buttons_.size(); it++)
+    size_t size = buttons_.size();
+    
+    for (size_t it = 0 ; it < size; it++)
     {
         buttons_[it]->Draw(window);
     }    
@@ -98,7 +89,9 @@ void ButtonsManager::ShowButtons(sf::RenderWindow &window) const
 
 void ButtonsManager::DetectPresse() const
 {
-    for (size_t it = 0 ; it < buttons_.size(); it++)
+    size_t size = buttons_.size();
+
+    for (size_t it = 0 ; it < size; it++)
     {
         if(buttons_[it]->CheckCursorOnButton()) 
         {

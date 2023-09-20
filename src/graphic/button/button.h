@@ -31,7 +31,7 @@ class Button
 {
 
     public:
-        Button  (const char *stat_texture_file, const char *point_texture_file, const char *press_texture_file, 
+        Button  (const char *stat_texture_file, const char *press_texture_file, 
                  const Dot &pos, const Action *action);
 
         Button(const Button &other) = default;
@@ -39,7 +39,6 @@ class Button
         virtual Button& operator= (const Button &other)
         {
             stat_texture_  = other.stat_texture_;
-            point_texture_ = other.point_texture_;
             press_texture_ = other.press_texture_;
 
             delete action_;
@@ -51,7 +50,6 @@ class Button
         virtual ~Button()
         {
             stat_texture_.~Texture();
-            point_texture_.~Texture();
             press_texture_.~Texture();
 
             delete action_;
@@ -66,14 +64,16 @@ class Button
         
         void SetFlag(const bool flag) 
         {
-            flag_pressed_ = flag;
+            if (!flag) return;
+
+            flag_pressed_ = !flag_pressed_;
             return;
         }
 
         const Action *action_; 
 
     protected:
-        sf::Texture stat_texture_, point_texture_, press_texture_;
+        sf::Texture stat_texture_, press_texture_;
         Dot left_up_;
 
         bool flag_pressed_;
@@ -105,6 +105,8 @@ class ButtonsManager
         void ShowButtons (sf::RenderWindow &window) const;
 
         void DetectPresse() const;
+
+        bool GetButtonState(const size_t it) const {return buttons_[it]->GetFlag();}
 
 
     protected:

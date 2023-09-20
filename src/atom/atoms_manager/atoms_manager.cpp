@@ -65,7 +65,9 @@ void  AtomsManager::DrawEnvironment (sf::RenderWindow &window) const
 
 void AtomsManager::DrawAtoms (sf::RenderWindow &window) const
 {
-    for (size_t it = 0; it < atoms_.size(); it++)
+    size_t size = atoms_.size();
+
+    for (size_t it = 0; it < size; it++)
     {
         if (atoms_[it] != nullptr)
         {
@@ -105,7 +107,9 @@ bool AtomsManager::CheckInFlask (const Atom &mol) const
 
 void AtomsManager::AtomsMovment ()
 {
-    for (size_t it = 0; it < atoms_.size(); it++)
+    size_t size = atoms_.size();
+
+    for (size_t it = 0; it < size; it++)
     {
         if (atoms_[it] != nullptr)
         {
@@ -181,15 +185,16 @@ void AtomsManager::CorrectMolPos  (Atom &mol) const
 
 double AtomsManager::GetPreasure()
 {
-    static time_t last_time = 0;
-    time_t cur_time = time(nullptr);
+    static sf::Clock clock;
+    double delta_time = clock.getElapsedTime().asMilliseconds();
 
-    double preasure_ = (double)cnt_strokes_ / (double)(cur_time - last_time);
+    double preasure = (double)cnt_strokes_ / delta_time;
 
-    last_time = cur_time;
     cnt_strokes_ = 0;
 
-    return preasure_;   
+    clock.restart();
+
+    return preasure;   
 }
 
 //================================================================================
@@ -198,13 +203,15 @@ double AtomsManager::GetTemperature() const
 {
     double temperature = 0;
 
-    for (size_t it = 0; it < atoms_.size(); it++)
+    size_t size = atoms_.size();
+
+    for (size_t it = 0; it < size; it++)
     {
         double delta = atoms_[it]->GetMass() * atoms_[it]->GetVelocity();
         temperature += delta;
     }
 
-    temperature /= (double)atoms_.size();
+    temperature /= (double)size;
 
     return temperature;   
 }
