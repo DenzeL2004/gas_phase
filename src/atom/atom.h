@@ -57,13 +57,7 @@ class Atom
             return;
         }
 
-        bool CheckCollision (const Atom &other)
-        {
-            Vector dist = other.pos_ - pos_;
-
-            return (dist.Len() < this->GetSize() || dist.Len() < other.GetSize()) &&
-                    velocity_ > reaction_velocity && other.velocity_ > reaction_velocity;
-        }
+        
 
     const AtomsType type_;
 

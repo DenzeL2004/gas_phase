@@ -98,8 +98,7 @@ void ButtonsManager::DetectPresse(const sf::Event event) const
         {
             if(buttons_[it]->CheckCursorOnButton()) 
             {
-                buttons_[it]->SetFlag((*buttons_[it]->action_)());
-                
+                buttons_[it]->SetState((*buttons_[it]->action_)());
             }
         }    
 

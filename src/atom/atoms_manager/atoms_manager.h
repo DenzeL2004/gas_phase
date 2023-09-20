@@ -58,19 +58,35 @@ class AtomsManager
             return;
         }
 
+        bool CheckCollision (const Atom *lhs, const Atom *rhs)
+        {
+            Vector dist = lhs->GetPos() - rhs->GetPos();
+
+            return (dist.Len() < lhs->GetSize() || dist.Len() < rhs->GetSize()) &&
+                    lhs->GetVelocity() > reaction_velocity && rhs->GetVelocity() > reaction_velocity;
+        }
+
     private:
 
         void DrawEnvironment (sf::RenderWindow &window) const;
 
-        void DrawAtoms  (sf::RenderWindow &window) const;
+        void DrawAtoms       (sf::RenderWindow &window) const;
 
-        bool CheckInFlask   (const Atom &mol) const;
+        bool CheckInFlask    (const Atom &mol) const;
 
-        void CorrectMolPos  (Atom &mol) const;
+        void CorrectMolPos   (Atom &mol) const;
 
         void Collision ();
 
-        void MakeReaction   (Atom *rhs, Atom *lhs);
+        
+
+        void MakeReaction           (const Atom *rhs, const Atom *lhs);
+
+        void ReactionCircleCircle   (const Atom *lhs, const Atom *rhs);
+        void ReactionCircleSquare   (const Atom *lhs, const Atom *rhs);
+        void ReactionSquareCircle   (const Atom *lhs, const Atom *rhs);
+        void ReactionSquareSquare   (const Atom *lhs, const Atom *rhs);
+
 
 
         Dot left_up_, right_down_;
@@ -80,7 +96,6 @@ class AtomsManager
 
         std::vector<Atom*> atoms_;
 };
-
 
 
 #endif //_ATOMS_MANAGER_H_

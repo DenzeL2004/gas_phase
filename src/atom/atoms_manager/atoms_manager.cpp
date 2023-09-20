@@ -28,6 +28,7 @@ void AtomsManager::AddAtom (const AtomsType type, const double mass)
             break;
         }
 
+        case ATOM_BASE:
         default:
             break;
     }
@@ -231,7 +232,7 @@ void AtomsManager::Collision ()
         {
             if (atoms_[jt] == nullptr) continue;
 
-            if (atoms_[it]->CheckCollision(*atoms_[jt]))
+            if (this->CheckCollision(atoms_[it], atoms_[jt]))
             {
                 this->MakeReaction(atoms_[it], atoms_[jt]);
                 delete atoms_[it];
@@ -253,27 +254,71 @@ void AtomsManager::Collision ()
     return;
 }
 
-void AtomsManager::MakeReaction (Atom *rhs, Atom *lhs)
+
+//================================================================================
+
+typedef void  (AtomsManager::*ReactionFuncPtr)  (const Atom *lhs, const Atom *rhs);
+
+void AtomsManager::MakeReaction (const Atom *rhs, const Atom *lhs)
+{
+    static const ReactionFuncPtr ReactionTable[3][3] = 
+    {
+        {nullptr, nullptr, nullptr},
+        {nullptr, &AtomsManager::ReactionCircleCircle, &AtomsManager::ReactionSquareCircle},
+        {nullptr, &AtomsManager::ReactionSquareCircle, &AtomsManager::ReactionSquareSquare}
+        
+    };
+
+    ReactionFuncPtr ptr_func = ReactionTable[rhs->type_][lhs->type_];
+
+    if (ptr_func != nullptr)
+        (this->*ptr_func)(lhs, rhs);
+
+    return;
+}
+
+void AtomsManager::ReactionCircleCircle   (const Atom *lhs, const Atom *rhs)
 {
     double mass = (rhs->GetMass() +  lhs->GetMass());
     size_t size = atoms_.size();
 
-    if (rhs->type_ == ATOM_SQUARE && lhs->type_ == ATOM_SQUARE)
+    for (size_t it = 0; it < (size_t)mass; it++)
     {
-        for (size_t it = 0; it < (size_t)mass; it++)
-        {
-            this->AddAtom(ATOM_CIRCLE, 1.0);
-            
-            atoms_[size]->SetPos((rhs->GetPos() + lhs->GetPos()) / 2);
-            size++;
-        }
-
-
-        return;
+        this->AddAtom(ATOM_CIRCLE, 1.0);
+        
+        atoms_[size]->SetPos((rhs->GetPos() + lhs->GetPos()) / 2);
+        size++;
     }
-    
+
     this->AddAtom(ATOM_SQUARE, mass);
     atoms_[size]->SetPos((rhs->GetPos() + lhs->GetPos()) / 2);
 
     return;
 }
+
+
+void AtomsManager::ReactionCircleSquare   (const Atom *lhs, const Atom *rhs)
+{
+    double mass = (rhs->GetMass() +  lhs->GetMass());
+    size_t size = atoms_.size();
+
+    this->AddAtom(ATOM_SQUARE, mass);
+    atoms_[size]->SetPos((rhs->GetPos() + lhs->GetPos()) / 2);
+
+    return;
+}
+
+void AtomsManager::ReactionSquareCircle   (const Atom *lhs, const Atom *rhs)
+{
+    this->ReactionCircleSquare(lhs, rhs);
+    return;
+}
+
+void AtomsManager::ReactionSquareSquare   (const Atom *lhs, const Atom *rhs)
+{
+    this->ReactionCircleSquare(lhs, rhs);
+    return;
+}
+
+
+

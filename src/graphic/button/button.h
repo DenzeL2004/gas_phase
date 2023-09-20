@@ -3,8 +3,6 @@
 
 #include "../graphic.h"
 
-
-
 //================================================================================
 
 class Action
@@ -62,7 +60,7 @@ class Button
 
         bool GetFlag() const {return flag_pressed_;}
         
-        void SetFlag(const bool flag) 
+        void SetState(const bool flag) 
         {
             if (!flag) return;
 
